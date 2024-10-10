@@ -1,80 +1,196 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Audio-based Image Distortion | Demo 1 | Codrops</title>
-		<meta name="description" content="A set of experimental audio-based image distortion effects made with WebGL" />
-		<meta name="keywords" content="audio, distortion, image, webgl, music, visualizer, javascript, creative, web, demo" />
-		<meta name="author" content="Codrops" />
-		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="stylesheet" type="text/css" href="css/base.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo1.css" />
-		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
-		
-	</head>
-	<body>
-		<main>
-			<svg class="hidden">
-				<symbol id="icon-soundon" viewBox="0 0 32 31">
-					<title>Sound on</title>
-					<path d="M6.405 9.239H0v13.128h6.405l12.474 8.316V.923L6.405 9.239zM5.75 20.491H1.875v-9.377h3.876v9.377zm11.252 6.687l-9.376-6.25v-10.25l9.376-6.25v22.75zm10.884-21.32c5.484 5.483 5.484 14.406 0 19.89l-1.326-1.326c4.753-4.752 4.753-12.486 0-17.239l1.326-1.326zm-2.652 2.651c4.021 4.022 4.021 10.566 0 14.587l-1.326-1.326c3.29-3.29 3.29-8.644 0-11.935l1.326-1.326zm-2.652 2.652a6.571 6.571 0 010 9.283l-1.327-1.326a4.694 4.694 0 000-6.63l1.327-1.327z"/>
-				</symbol>
-				<symbol id="icon-soundoff" viewBox="0 0 32 31">
-					<title>Sound off</title>
-					<path d="M6.409 9.11H0v13.135h6.409l12.48 8.32V.79L6.41 9.109zm-.655 11.258H1.876v-9.382h3.878v9.382zm11.26 6.691L7.63 20.804V10.55l9.382-6.255V27.06zM32 11.65l-1.327-1.326-4.027 4.027-4.028-4.027-1.327 1.326 4.028 4.028-4.028 4.028 1.327 1.327 4.027-4.028 4.028 4.028L32 19.705l-4.028-4.028L32 11.65z"/>
-				</symbol>
-			</svg>
-			<div class="frame">
-				<h1 class="frame__title">Audio-based Image Distortion</h1>
-				<div class="frame__links">
-					<a href="http://tympanus.net/Tutorials/3DClothSlideshow/">Previous Demo</a>
-					<a href="https://tympanus.net/codrops/?p=47614">Article</a>
-					<a href="https://github.com/neundex/AudioBasedImageDistortion">GitHub</a>
-				</div>
-				<div class="frame__demos">
-					<a href="index.html" class="frame__demo frame__demo--current">1</a>
-					<a href="index2.html" class="frame__demo">2</a>
-					<a href="index3.html" class="frame__demo">3</a>
-					<a href="index4.html" class="frame__demo">4</a>
-					<a href="index5.html" class="frame__demo">5</a>
-					<a href="index6.html" class="frame__demo">6</a>
-					<a href="index7.html" class="frame__demo">7</a>
-					<a href="index8.html" class="frame__demo">8</a>
-				</div>
-				<button class="toggle toggle--on button" id="toggle-btn">
-					<svg class="toggle__icon toggle__icon--on"><use xlink:href="#icon-soundon"></use></svg>
-					<svg class="toggle__icon toggle__icon--off"><use xlink:href="#icon-soundoff"></use></svg>
-				</button>
-			</div>
-			<div class="content">
-				<h3 class="content__subtitle">An Onum Barr film</h3>
-				<h2 class="content__title">Substrate</h2>
-				<div class="content__credits">Mechanic Sky Enterprises <small>presents a</small> Mechanic Sky <small>production in association with</small> Humanae Future <small>an</small> Onum Barr <small>Film</small> Susan Calvin Arkady Darell Lors Avakim Raych Seldon "Substrate" <small>music by</small> Danny Greehouse <small>costume designer</small> Laura Kenister <small>visual effects supervisor</small> Frederick Mounte <small>editors</small> Onum Barr Mark Singer <small>production designer</small> Andy Nichols <small>director of photography</small> Carol P. Wyonast <small>written by</small> Onum Barr <small>produced by</small> Onum Barr David Loyman <small>directed by</small> Onum Barr
-				<br /><br /><a href="http://bit.ly/CodropsDiviDemo" rel="sponsored">Sponsored by Divi</a>
-       			</div>
-			</div>
-			<div class="screen screen--grid intro">
-				<p class="intro__content">
-					<span class="intro__content-line">Mechanic Sky</span>
-					<span class="intro__content-line intro__content-line--small">presents</span>
-				</p>
-				<p class="intro__content">
-					<span class="intro__content-line intro__content-line--small">in association with</span>
-					<span class="intro__content-line">Humanae Future</span>
-				</p>
-			</div>
-			<div class="screen screen--flex action">
-				<span class="action__line">Turn your sound on</span>
-				<button id="play-btn" class="button button--box">Play</button>
-			</div>
-		</main>
-		<div id="p5_loading" class="p5_loading">
-			<div class="p5_loading__inner"></div>
-		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
-		<script src="js/demo1.js"></script>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualization with Text Animation and Image Cycling</title>
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('/fonts/FTPSans-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            font-family: 'CustomFont', Arial, sans-serif;
+            overflow: hidden;
+        }
+        #toggle-btn {
+            position: absolute;
+            left: 60px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background-color: rgba(51, 51, 51, 0);
+            border: none;
+            border-radius: 50%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+        }
+        #text-container {
+            position: absolute;
+            text-align: center;
+            font-size: 36px;
+            color: black;
+            max-width: 80%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 5;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <button id="toggle-btn">
+        <svg viewBox="0 0 24 24" id="play-icon">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg viewBox="0 0 24 24" id="pause-icon" style="display: none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <div id="text-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <script>
+    const s = (p) => {
+        let demo1Shader, images = [], fft, audio, toggleBtn, playIcon, pauseIcon;
+        let isPlaying = true;
+        let currentImageIndex = 0;
+        let nextImageIndex = 1;
+        let blendFactor = 0;
+        
+        p.preload = () => {
+            audio = p.loadSound('audio/demo1.mp3', () => {
+                audio.loop();
+                updatePlayPauseIcon();
+            });
+            demo1Shader = p.loadShader('shaders/base.vert', 'shaders/d1.frag');
+            for (let i = 1; i <= 4; i++) {
+                images.push(p.loadImage(`img/Texture${i}.png`));
+            }
+        }
+        
+        p.setup = () => {
+            p.pixelDensity(1);
+            p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL);
+            
+            toggleBtn = document.querySelector('#toggle-btn');
+            playIcon = document.querySelector('#play-icon');
+            pauseIcon = document.querySelector('#pause-icon');
+            toggleBtn.addEventListener('click', toggleAudio);
+            
+            fft = new p5.FFT();
+            p.shader(demo1Shader);
+            demo1Shader.setUniform('u_resolution', [p.windowWidth, p.windowHeight]);
+            demo1Shader.setUniform('u_texture1', images[currentImageIndex]);
+            demo1Shader.setUniform('u_texture2', images[nextImageIndex]);
+            demo1Shader.setUniform('u_tResolution', [images[0].width, images[0].height]);
+        }
+        
+        p.draw = () => {
+            fft.analyze();
+            const bass = fft.getEnergy("bass");
+            const treble = fft.getEnergy("treble");
+            const mid = fft.getEnergy("mid");
+            const mapBass = p.map(bass, 0, 255, 10, 15.0);
+            const mapTremble = p.map(treble, 0, 255, 0, 0.0);
+            const mapMid = p.map(mid, 0, 255, 0.0, 0.1);
+            
+            demo1Shader.setUniform('u_time', p.frameCount / 20);
+            demo1Shader.setUniform('u_bass', mapBass);
+            demo1Shader.setUniform('u_tremble', mapTremble);
+            demo1Shader.setUniform('u_mid', mapMid);
+            demo1Shader.setUniform('u_blend', blendFactor);
+            
+            p.rect(0,0, p.width, p.height);
+            
+            // Update blend factor and cycle images
+            blendFactor += 0.005;
+            if (blendFactor >= 1) {
+                blendFactor = 0;
+                currentImageIndex = nextImageIndex;
+                nextImageIndex = (nextImageIndex + 1) % images.length;
+                demo1Shader.setUniform('u_texture1', images[currentImageIndex]);
+                demo1Shader.setUniform('u_texture2', images[nextImageIndex]);
+            }
+        }
+        
+        p.windowResized = () => {
+            p.resizeCanvas(p.windowWidth, p.windowHeight);
+            demo1Shader.setUniform('u_resolution', [p.windowWidth, p.windowHeight]);
+        }
+        
+        function toggleAudio() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                audio.loop();
+            } else {
+                audio.pause();
+            }
+            updatePlayPauseIcon();
+        }
+
+        function updatePlayPauseIcon() {
+            if (isPlaying) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+    };
+
+    new p5(s);
+
+    // Text Animation
+    const lines = [
+        "WHY DO ALL THE CARS, PHONES,<br> AND BUILDINGS LOOK THE SAME?",
+        "BECAUSE THE BUSINESS WORLD<br> VALUES",
+        "INCREMENTAL COST-CUTTING,<br>TIME-SAVING STANDARDISATION,",
+        "AND RISK-AVERSE ITERATION.",
+        "BUT SHOULD WE BE WILLING<br>TO ACCEPT,",
+        "THAT TO DELIVER OR SELL<br>OR INCENTIVISE,",
+        "WE HAVE TO SACRIFICE BEAUTY AND<br>MEANING AND WARMTH AND PASSION?",
+        "WE SAY NO.",
+        "WE BELIEVE…"
+    ];
+
+    const textContainer = document.getElementById('text-container');
+    let currentIndex = 0;
+
+    function showNextLine() {
+        textContainer.style.opacity = 0;
+        
+        setTimeout(() => {
+            textContainer.innerHTML = lines[currentIndex];
+            textContainer.style.opacity = 1;
+            
+            if (currentIndex < lines.length - 1) {
+                currentIndex++;
+                setTimeout(showNextLine, 3000); // Wait for 3 seconds before fading out
+            }
+        }, 1000); // Wait for 1 second after fade out before showing next line
+    }
+
+    showNextLine();
+    </script>
+</body>
 </html>
